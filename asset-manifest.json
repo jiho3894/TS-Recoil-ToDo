@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/TS-Recoil-ToDo/static/js/main.4fbb9984.js",
+    "main.js": "/TS-Recoil-ToDo/static/js/main.8d78bbb8.js",
     "index.html": "/TS-Recoil-ToDo/index.html",
-    "main.4fbb9984.js.map": "/TS-Recoil-ToDo/static/js/main.4fbb9984.js.map"
+    "main.8d78bbb8.js.map": "/TS-Recoil-ToDo/static/js/main.8d78bbb8.js.map"
   },
   "entrypoints": [
-    "static/js/main.4fbb9984.js"
+    "static/js/main.8d78bbb8.js"
   ]
 }

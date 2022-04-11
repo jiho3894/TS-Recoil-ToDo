@@ -41,7 +41,6 @@ const AuthForm = () => {
     formState: { errors },
     setError,
   } = useForm<Inputs>();
-  console.log(errors);
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (data.Password !== data.Password2) {
       setError("Password", { message: "not same" }, { shouldFocus: true });

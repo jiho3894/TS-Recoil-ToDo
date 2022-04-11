@@ -2,6 +2,8 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   Email: string;
@@ -35,6 +37,7 @@ const Span = styled.span`
 `;
 
 const AuthForm = () => {
+  const Navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -44,7 +47,10 @@ const AuthForm = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (data.Password !== data.Password2) {
       setError("Password", { message: "not same" }, { shouldFocus: true });
+      return;
     }
+    alert("로그인 성공");
+    Navigate("/");
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -54,8 +60,8 @@ const AuthForm = () => {
           variant="standard"
           placeholder="Email"
           autoFocus
+          required
           {...register("Email", {
-            required: "put email",
             pattern: {
               value: /^[A-Za-z0-9._%+-]/g,
               message: "email pattern",
@@ -119,7 +125,10 @@ const AuthForm = () => {
         />
         <Span>{errors?.NickName?.message}</Span>
       </InputBox>
-      <input type="submit" value="보내" />
+      {/* <Button variant="contained">Submit</Button> */}
+      <Button variant="contained" type="submit">
+        Submit
+      </Button>
     </Form>
   );
 };

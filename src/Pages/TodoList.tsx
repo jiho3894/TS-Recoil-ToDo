@@ -1,34 +1,42 @@
-import React, { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-
-interface IToDo {
-  ToDo: string;
-}
+import React from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import CreateToDo from "../Components/CreateToDo";
+import ToDo from "../Components/ToDo";
+import { Category, categoryState, toDoSelector } from "../Recoil/Atoms";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 const TodoList = () => {
-  const { register, handleSubmit, setValue } = useForm<IToDo>();
-  const [toDo, setToDos] = useState<string[]>([]);
-  const onVaild: SubmitHandler<IToDo> = (data) => {
-    setValue("ToDo", "");
-    setToDos([data.ToDo, ...toDo]);
+  const toDos = useRecoilValue(toDoSelector);
+  const [category, setCategory] = useRecoilState(categoryState);
+  const handleChange = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as any);
   };
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit(onVaild)}>
-        <TextField
-          label="Outlined secondary"
-          color="secondary"
-          placeholder="write ToDo..."
-          required
-          autoFocus
-          {...register("ToDo", { required: "please write ToDo" })}
-        />
-        <input type="submit" value="보내" />
-      </form>
-      {toDo.map((data, index) => {
-        return <div key={index}>{data}</div>;
-      })}
+      <h1>ToDo</h1>
+      <hr />
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">TODO</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={String(category)}
+          onChange={handleChange}
+        >
+          <MenuItem value={Category.TO_DO}>TO_DO</MenuItem>
+          <MenuItem value={Category.DOING}>DOING</MenuItem>
+          <MenuItem value={Category.DONE}>DONE</MenuItem>
+        </Select>
+      </FormControl>
+      <CreateToDo />
+      <ul>
+        {toDos.map((data) => {
+          return <ToDo key={data.id} {...data} />;
+        })}
+      </ul>
     </React.Fragment>
   );
 };

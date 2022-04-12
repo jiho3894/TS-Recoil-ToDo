@@ -1,6 +1,10 @@
 import { atom, selector } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 export enum Category {
+  "ALL",
   "TO_DO",
   "DOING",
   "DONE",
@@ -15,11 +19,12 @@ export interface IToDo {
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const categoryState = atom<IToDo["category"]>({
   key: "category",
-  default: Category.TO_DO,
+  default: Category.ALL,
 });
 
 export const toDoSelector = selector({
@@ -29,4 +34,30 @@ export const toDoSelector = selector({
     const category = get(categoryState);
     return toDo.filter((data) => data.category === category);
   },
+});
+/* login */
+
+export const gitID = atom({
+  key: "GIT",
+  default: "",
+  effects_UNSTABLE: [persistAtom],
+});
+
+/* darkmode */
+
+export enum ThemeEnums {
+  "LIGHT",
+  "DARK",
+}
+
+const { LIGHT, DARK } = ThemeEnums;
+
+export const getTheme = (): ThemeEnums => {
+  return LIGHT ? DARK : LIGHT;
+};
+
+export const themeState = atom<ThemeEnums>({
+  key: "themeMode",
+  default: getTheme(),
+  effects_UNSTABLE: [persistAtom],
 });

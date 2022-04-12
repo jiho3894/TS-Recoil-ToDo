@@ -1,5 +1,7 @@
-import { Link, useMatch } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
+import { gitID } from "../Recoil/Atoms";
 
 const HeaderContainer = styled.header`
   width: 100%;
@@ -8,58 +10,34 @@ const HeaderContainer = styled.header`
 `;
 
 const HeaderBox = styled.div`
-  width: 70%;
+  width: 90%;
   height: 100%;
   margin: auto;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-`;
-
-const HeaderLine = styled.div`
-  width: 20%;
-  height: 98%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  justify-content: space-between;
   font-size: 20px;
-  font-weight: 600;
-`;
-
-const LineAnimation = keyframes`
-  0% {
-    width: 0%;
-  }
-
-  100%{
-    width: 100%;
-  }
-`;
-
-const UnderLine = styled.div`
-  width: 100%;
-  height: 5px;
-  background-color: red;
-  position: absolute;
-  bottom: 0;
-  animation: ${LineAnimation} 0.2s;
 `;
 
 const Header = () => {
-  const HomeMatch = useMatch("/");
-  const FormMatch = useMatch("/authForm");
+  const loginID = useRecoilValue(gitID);
+  const setID = useSetRecoilState(gitID);
+  const onLogout = () => {
+    setID("");
+  };
   return (
     <HeaderContainer>
       <HeaderBox>
-        <HeaderLine>
-          <Link to="/">ToDoList</Link>
-          {HomeMatch && <UnderLine />}
-        </HeaderLine>
-        <HeaderLine>
-          <Link to="/authForm">AuthForm</Link>
-          {FormMatch && <UnderLine />}
-        </HeaderLine>
+        <a href={`https://github.com/${loginID}`}>{`${
+          loginID === "" ? "" : `${loginID}님 깃허브 이동`
+        }`}</a>
+        {loginID !== "" ? (
+          <Link to="/" onClick={onLogout}>
+            로그아웃
+          </Link>
+        ) : (
+          <Link to="/authForm">로그인</Link>
+        )}
       </HeaderBox>
     </HeaderContainer>
   );

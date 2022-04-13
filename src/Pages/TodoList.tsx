@@ -83,7 +83,7 @@ const TodoList = () => {
     setCategory(event.target.value as any);
   };
   const onClick = () => {
-    setLoad(load + 4);
+    setLoad(load + 8);
   };
   return (
     <React.Fragment>
